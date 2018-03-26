@@ -9,52 +9,46 @@ fpsClock=pygame.time.Clock()
 width=400
 height=300
 DISPLAYSURF=pygame.display.set_mode((width,height),0,32)
-pygame.display.set_caption('Animation')
+
 background=pygame.image.load('Assets/background_example.png')
 
+sprite=pygame.image.load('Assets/PNG/tank_dark.png')
 
-UP='up'
-LEFT='left'
-RIGHT='right'
-DOWN='down'
-
-sprite=pygame.image.load('Assets/PNG/tank_blue.png')
-spritex=200
-spritey=130
 direction=None
+position = {'x': 200,
+			'y': 200}
 
-def move(direction, sprite, spritex, spritey):
+def move(direction, sprite, position):
     if direction:
         if direction == K_UP:
-            spritey-=5
-            sprite=pygame.image.load('Assets/PNG/tank_blue.png')
+            position['y'] -= 5
+            sprite=pygame.image.load('Assets/PNG/tank_dark.png')
         elif direction == K_DOWN:
-            spritey+=5
+            position['y'] += 5
             sprite=pygame.image.load('Assets/PNG/tank_dark.png')
         if direction == K_LEFT:
-            spritex-=5
-            sprite=pygame.image.load('Assets/PNG/tank_green.png')
+            position['x'] -= 5
+            sprite=pygame.image.load('Assets/PNG/tank_dark.png')
         elif direction == K_RIGHT:
-            spritex+=5
-            sprite=pygame.image.load('Assets/PNG/tank_red.png')
-    return sprite, spritex, spritey
+            position['x'] += 5
+            sprite=pygame.image.load('Assets/PNG/tank_dark.png')
+    return sprite, position
 
 while True:
     DISPLAYSURF.blit(background,(0,0))
 
-    DISPLAYSURF.blit(sprite,(spritex,spritey))
+    DISPLAYSURF.blit(sprite,(position['x'],position['y']))
 
     for event in pygame.event.get():
-        if event.type==QUIT:
+        if event.type == QUIT:
             pygame.quit()
             sys.exit()
-
         if event.type == KEYDOWN:
             direction = event.key
         if event.type == KEYUP:
             if (event.key == direction):
                 direction = None
-    sprite, spritex, spritey = move(direction, sprite, spritex, spritey)
+    sprite, position = move(direction, sprite, position)
 
     pygame.display.update()
     fpsClock.tick(FPS)
