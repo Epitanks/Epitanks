@@ -45,8 +45,9 @@ def chat_client():
 					sys.exit()
 				else:
 					#    print data
-					tmp_split = data.split(':')
-					game.displayennemies(tmp_split[0], tmp_split[1])
+					if data[0:3] != "[127":
+						tmp_split = data.split(':')
+						game.displayennemies(tmp_split[0], tmp_split[1])
 					sys.stdout.write(data)
 					sys.stdout.write('[Me] ')
 					sys.stdout.flush()
