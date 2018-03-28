@@ -5,7 +5,7 @@ from pygame.locals import *
 class Game:
     def __init__(self):
         pygame.init()
-        self.FPS = 60
+        self.FPS = 30
         self.fpsClock = pygame.time.Clock()
         self.width = 400
         self.height = 300
@@ -16,28 +16,27 @@ class Game:
         self.direction = None
         self.position = {'x': 200,
                          'y': 200}
+        self.eposition = {'x': 0,
+                         'y': 0}
 
     def move(self):
         if self.direction:
             if self.direction == K_UP:
                 self.position['y'] -= 5
-                self.sprite = pygame.image.load('Assets/PNG/tank_dark.png')
 
             elif self.direction == K_DOWN:
                 self.position['y'] += 5
-                self.sprite = pygame.image.load('Assets/PNG/tank_dark.png')
 
             if self.direction == K_LEFT:
                 self.position['x'] -= 5
-                self.sprite = pygame.image.load('Assets/PNG/tank_dark.png')
 
             elif self.direction == K_RIGHT:
                 self.position['x'] += 5
-                self.sprite = pygame.image.load('Assets/PNG/tank_dark.png')
 
     def getevent(self):
         self.DISPLAYSURF.blit(self.background, (0, 0))
         self.DISPLAYSURF.blit(self.sprite, (self.position['x'], self.position['y']))
+        self.DISPLAYSURF.blit(self.sprite2, (self.eposition['x'], self.eposition['y']))
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -56,11 +55,10 @@ class Game:
         return "OK"
 
     def getpos(self):
-        return str(self.position['x']) + ":" + str(self.position['y']) + "\n"
+        return str(self.position['x']) + ":" + str(self.position['y'])
 
-    def displayennemies(self, pos_x, pos_y):
-        self.DISPLAYSURF.blit(self.sprite2, (int(pos_x), int(pos_y)))
-        pygame.display.update()
-        self.fpsClock.tick(self.FPS)
+    def setennemies(self, pos_x, pos_y):
+        self.eposition['x'] = int(pos_x)
+        self.eposition['y'] = int(pos_y)
 
 

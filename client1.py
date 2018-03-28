@@ -47,10 +47,9 @@ def chat_client():
 					#    print data
 					if data[0:4] != "[127" and data[0:4] != "Clie":
 						tmp_split = data.split(':')
-						game.displayennemies(tmp_split[0], tmp_split[1])
-					sys.stdout.write(data)
-					sys.stdout.write('[Me] ')
-					sys.stdout.flush()
+						game.setennemies(tmp_split[0], tmp_split[1])
+					else:
+						game.setennemies(-1, -1)
 
 			else:
 				# user entered a message
