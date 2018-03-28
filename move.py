@@ -34,6 +34,7 @@ def move(direction, sprite, position):
             sprite=pygame.image.load('Assets/PNG/tank_dark.png')
     return sprite, position
 
+
 while True:
     DISPLAYSURF.blit(background,(0,0))
 
@@ -49,6 +50,6 @@ while True:
             if (event.key == direction):
                 direction = None
     sprite, position = move(direction, sprite, position)
-
+    print(position['x'])
     pygame.display.update()
     fpsClock.tick(FPS)

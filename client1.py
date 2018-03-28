@@ -13,8 +13,6 @@ def sendMsg(msg):
 	
 while 1:
 	a = s.recv(1000)
-	a = a + "a"
 	print(a)
 	time.sleep(1)
-	sendMsg('a')
- 
+	sendMsg(a)
