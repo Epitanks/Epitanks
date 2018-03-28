@@ -2,32 +2,27 @@ import socket
 import threading
 from threading import RLock
 from datetime import datetime
+from Queue import Queue
 import time
 
 verrou = RLock()
 gamers = []
-mapp = "1 2 3 4 5"
+
 class ClientThread(threading.Thread):
-	def __init__(self, ip, port, clientsocket):
+	def __init__(self, ip, port, clientsocket, queue):
 		threading.Thread.__init__(self)
 		self.ip = ip
 		self.port = port
 		self.clientsocket = clientsocket
-		print("[+] Nouveau thread pour %s %s" % (self.ip, self.port,))
+		self.queue = queue
+#		print("[+] Nouveau thread pour %s %s" % (self.ip, self.port,))
+		print("Connection de %s %s" % (self.ip, self.port,))
 
 	def run(self):
-		global mapp
-		print("Connection de %s %s" % (self.ip, self.port,))
-		print(str(mapp))
-		while 1:
-			self.clientsocket.send(mapp)
-			r = self.clientsocket.recv(2048)
-			if (r == 'a'):
-				mmap += "a"
-			with verrou:
-				print(r + " send by " + str(self.ip) + " " + str(self.port))
-				mmap = str(r)
-		print("Client deconnecte...")
+		self.clientsocket.send(self.msg)
+		self.msg = self.clientsocket.recv(2048)
+		with verrou:
+			print(self.msg + " send by " + str(self.ip) + " " + str(self.port))
 
 
 
@@ -40,10 +35,12 @@ while (len(gamers) < 2):
 	tcpsock.listen(10)
 	print("En ecoute...")
 	(clientsocket, (ip, port)) = tcpsock.accept()
-	tmp = "Connected with " + str(ip) + " " + str(port)
-	clientsocket.send(tmp)
-	gamers.append(ClientThread(ip, port, clientsocket))
+	gamers.append(ClientThread(ip, port, clientsocket, queue))
+	
 
 for gamer in gamers:
 	gamer.start()
-	time.sleep(0.3)
+	time.sleep(0.5)
+
+for gamer in gamers:
+	gamer.join()
