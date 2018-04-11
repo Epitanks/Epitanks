@@ -12,13 +12,12 @@ class Game:
         self.height = 512
         self.DISPLAYSURF = pygame.display.set_mode((self.width, self.height), 0, 32)
         self.background = pygame.image.load('Assets/background_example.png')
-        self.sprite = pygame.image.load('Assets/PNG/tank_dark.png')
-        self.sprite2 = pygame.image.load('Assets/PNG/tank_red.png')
+        self.tanks = pygame.image.load('Assets/PNG/tank_dark.png')
+        self.enemy = {}
         self.direction = None
         self.position = {'x': 200,
                          'y': 200}
-        self.eposition = {'x': 0,
-                         'y': 0}
+        self.eposition = {};
         self.keys = [KEYUP, KEYDOWN]
 
     def move(self):
@@ -37,8 +36,10 @@ class Game:
 
     def getevent(self):
         self.DISPLAYSURF.blit(self.background, (0, 0))
-        self.DISPLAYSURF.blit(self.sprite, (self.position['x'], self.position['y']))
-        self.DISPLAYSURF.blit(self.sprite2, (self.eposition['x'], self.eposition['y']))
+        self.DISPLAYSURF.blit(self.tanks, (self.position['x'], self.position['y']))
+        for enemy in self.enemy:
+            self.DISPLAYSURF.blit(self.enemy[enemy], (int(self.eposition[enemy]['x']), int(self.eposition[enemy]['y'])))
+         
         events = []
         get_events = pygame.event.get()
 
@@ -63,10 +64,21 @@ class Game:
         return "OK"
 
     def getpos(self):
-        return "#" + str(self.position['x']) + ":" + str(self.position['y'])
+        return str(self.position['x']) + "#" + str(self.position['y'])
 
-    def setennemies(self, pos_x, pos_y):
-        self.eposition['x'] = int(pos_x)
-        self.eposition['y'] = int(pos_y)
+    def setennemies(self, player, pos_x, pos_y):
+        if player != -1:
+            self.eposition[player]['x'] = int(pos_x)
+            self.eposition[player]['y'] = int(pos_y)
+
+    def setNewEnemy(self, key, asset, x, y):
+        self.enemy[key] = pygame.image.load(asset);
+        self.eposition[key] = {'x':x, 'y':y}
+
+    def printEnemy(self):
+        msg = ""
+        for enemy in self.enemy:
+            msg += enemy + " " + self.eposition[enemy]['x'] + " " + self.eposition[enemy]['x'] + "\n"
+        return msg
 
 
