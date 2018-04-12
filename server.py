@@ -32,8 +32,8 @@ def chat_server():
                 sockfd, addr = server_socket.accept()
                 SOCKET_LIST.append(sockfd)
                 print "Client (%s, %s) connected" % addr
-                sockfd.send(players)
                 players += broadcast(server_socket, sockfd, "%s:%s#" % addr + tanks[i] + "#" + str(i * 100) + "#10" + '#\n')
+                sockfd.send(players)
                 i += 1
                 print(players)
             # a message from a client, not a new connection
@@ -54,7 +54,7 @@ def chat_server():
 
     server_socket.close()
 
-def broadcast (server_socket, sock, message):
+def broadcast(server_socket, sock, message):
     for socket in SOCKET_LIST:
         if socket != server_socket and socket != sock :
             try :

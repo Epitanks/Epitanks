@@ -30,6 +30,7 @@ def chat_client():
 	print(me)
 
 	game = move.Game()
+	game.setMe(me)
 	i = 0
 	while i < 2:
 		socket_list = [sys.stdin, s]
@@ -48,8 +49,6 @@ def chat_client():
 						if (len(enemy) > 3):
 							game.setNewEnemy(enemy[0], enemy[1], enemy[2], enemy[3])
 							i += 1
-
-
 	while 1:
 		socket_list = [sys.stdin, s]
 		# Get the list sockets which are readable
