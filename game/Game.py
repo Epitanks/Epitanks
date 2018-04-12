@@ -24,6 +24,7 @@ class Game:
                 self.players.eposition[self.players.me]['x'] += 10
 
     def getevent(self):
+        self.DISPLAYSURF.fill((0,0,0))
         self.DISPLAYSURF.blit(self.background, (0, 0))
         for enemy in self.players.tanks:
             self.DISPLAYSURF.blit(self.players.tanks[enemy], (int(self.players.eposition[enemy]['x']), int(self.players.eposition[enemy]['y'])))
