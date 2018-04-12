@@ -6,6 +6,7 @@ import select
 import time
 from game import Game
 from game import WindowManager
+from game import Players
 
 
 def chat_client():
@@ -31,8 +32,9 @@ def chat_client():
 	print(me)
 
 	window = WindowManager.WindowManager()
-	game = Game.Game(window)
-	game.setMe(me)
+	players = Players.Players()
+	game = Game.Game(window, players)
+	players.setMe(me)
 	i = 0
 	while i < 3:
 		socket_list = [sys.stdin, s]
@@ -51,7 +53,7 @@ def chat_client():
 						if (len(enemy) > 3):
 							game.setNewEnemy(enemy[0], enemy[1], enemy[2], enemy[3])
 							i += 1
-	print(game.printEnemy())
+	print(game.toStringTanks())
 	while 1:
 		socket_list = [sys.stdin, s]
 		# Get the list sockets which are readable
