@@ -1,22 +1,15 @@
 import pygame, sys
 from pygame.locals import *
 
-
 class Game:
-    def __init__(self):
-        pygame.init()
-        pygame.key.set_repeat(30, 50)
-        self.FPS = 30
-        self.fpsClock = pygame.time.Clock()
-        self.width = 1280
-        self.height = 512
-        self.DISPLAYSURF = pygame.display.set_mode((self.width, self.height), 0, 32)
+    def __init__(self, w):        
         self.background = pygame.image.load('Assets/background_example.png')
         self.tanks = {}
         self.me = ""
         self.direction = None
-        self.eposition = {};
+        self.eposition = {}
         self.keys = [KEYUP, KEYDOWN]
+        self.DISPLAYSURF = w.getDisplay()
 
     def move(self):
         if self.direction:
@@ -79,4 +72,3 @@ class Game:
 
     def setMe(self, value):
         self.me = value
-
