@@ -51,9 +51,8 @@ def chat_client():
 					for enemy in data:
 						enemy = enemy.split('#')
 						if (len(enemy) > 3):
-							game.setNewEnemy(enemy[0], enemy[1], enemy[2], enemy[3])
+							players.setNewEnemy(enemy[0], enemy[1], enemy[2], enemy[3])
 							i += 1
-	print(game.toStringTanks())
 	while 1:
 		socket_list = [sys.stdin, s]
 		# Get the list sockets which are readable
@@ -70,8 +69,9 @@ def chat_client():
 				else:
 					if data[0] == '#':
 						tmp_split = data[1:].split('#')
-						game.setennemies(tmp_split[0], tmp_split[1], tmp_split[2])	
+						players.moveEnemy(tmp_split[0], tmp_split[1], tmp_split[2])	
 					elif data[0] == '&':
+						print(data)
 						tmp_split = data[1:].split('&')
 						game.bullets.addEnemy(tmp_split[0], tmp_split[1], tmp_split[2], tmp_split[3])
 			else:
