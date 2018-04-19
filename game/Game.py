@@ -15,13 +15,13 @@ class Game:
     def move(self, key):
         if key:
             if key[K_UP]:
-                self.players.move(self.players.me, 0, -10)
+                self.players.move(self.players.me, 0, -5)
             if key[K_DOWN]:
-                self.players.move(self.players.me, 0, 10)
+                self.players.move(self.players.me, 0, 5)
             if key[K_LEFT]:
-                self.players.move(self.players.me, -10, 0)
+                self.players.move(self.players.me, -5, 0)
             if key[K_RIGHT]:
-                self.players.move(self.players.me, 10, 0)
+                self.players.move(self.players.me, 5, 0)
             if key[K_SPACE]:
                 self.bullets.add(1, self.players.getx(), self.players.gety(), 90)
                 self.display();
@@ -35,9 +35,7 @@ class Game:
 
     def display(self):
         self.clear()
-
         self.bullets.move(self.window.width, self.window.height)
-
         self.bullets.display(self.DISPLAYSURF)
         self.players.display(self.DISPLAYSURF)
  
