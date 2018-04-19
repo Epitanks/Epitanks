@@ -36,7 +36,7 @@ def chat_client():
 	game = Game.Game(window, players)
 	players.setMe(me)
 	i = 0
-	while i < 3:
+	while i < 2:
 		socket_list = [sys.stdin, s]
 		ready_to_read, ready_to_write, in_error = select.select(socket_list, [], [], 0.05)
 		for sock in ready_to_read:
@@ -70,11 +70,18 @@ def chat_client():
 				else:
 					if data[0] == '#':
 						tmp_split = data[1:].split('#')
-						game.setennemies(tmp_split[0], tmp_split[1], tmp_split[2])
+						game.setennemies(tmp_split[0], tmp_split[1], tmp_split[2])	
+					elif data[0] == '&':
+						tmp_split = data[1:].split('&')
+						game.bullets.addEnemy(tmp_split[0], tmp_split[1], tmp_split[2], tmp_split[3])
 			else:
 				# user entered a message
-				if game.getevent() is not None:
-					msg = "#" + me + '#' + game.getpos()
+		#		s.send(game.bullets.toStringBullet())
+				game.display()
+				msg = game.getevent()
+				if msg is not None:
+					if (msg[0] != '&'):
+						msg = "#" + me + '#' + msg + "#"
 					s.send(msg)
 
 if __name__ == "__main__":

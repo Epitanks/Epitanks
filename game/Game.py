@@ -1,11 +1,13 @@
 import pygame, sys
 from pygame.locals import *
 import Players
+import Bullets
 
 class Game:
     def __init__(self, w, p):        
         self.background = pygame.image.load('Assets/background_example.png')
         self.players = p
+        self.bullets = Bullets.Bullets()
         self.keys = [KEYUP, KEYDOWN]
         self.DISPLAYSURF = w.getDisplay()
 
@@ -13,28 +15,37 @@ class Game:
         if self.players.direction:
             if self.players.direction == K_UP:
                 self.players.eposition[self.players.me]['y'] -= 10
-
             elif self.players.direction == K_DOWN:
                 self.players.eposition[self.players.me]['y'] += 10
 
             if self.players.direction == K_LEFT:
                 self.players.eposition[self.players.me]['x'] -= 10
-
             elif self.players.direction == K_RIGHT:
                 self.players.eposition[self.players.me]['x'] += 10
 
-    def getevent(self):
+            if self.players.direction == K_SPACE:
+                self.bullets.add(1, self.players.getx(), self.players.gety(), 120)
+                return self.bullets.toStringBullet()
+        return self.getpos()
+
+    def clear(self):
         self.DISPLAYSURF.fill((0,0,0))
         self.DISPLAYSURF.blit(self.background, (0, 0))
-        for enemy in self.players.tanks:
-            self.DISPLAYSURF.blit(self.players.tanks[enemy], (int(self.players.eposition[enemy]['x']), int(self.players.eposition[enemy]['y'])))
+
+    def display(self):
+        self.clear()
+        self.bullets.display(self.DISPLAYSURF)
+        self.players.display(self.DISPLAYSURF)
+        pygame.display.update()
+
+    def getevent(self):
         events = []
         get_events = pygame.event.get()
-
         for event in get_events:
             if event.type in self.keys:
                 events.append(event)
 
+        tmp = None
         for event in events:
             if event.type == QUIT or event.key == K_ESCAPE:
                 pygame.quit()
@@ -44,12 +55,12 @@ class Game:
             if event.type == KEYUP:
                 if event.key == self.players.direction:
                     self.players.direction = None
-            self.move()
+            tmp = self.move()
 
-        pygame.display.update()
+        self.bullets.move()
         if len(events) == 0:
             return None
-        return "OK"
+        return tmp
 
     def getpos(self):
         return str(self.players.eposition[self.players.me]['x']) + "#" + str(self.players.eposition[self.players.me]['y'])

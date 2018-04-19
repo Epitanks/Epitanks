@@ -10,3 +10,13 @@ class Players:
 
     def setMe(self, value):
         self.me = value
+
+    def display(self, display):
+        for enemy in self.tanks:
+            display.blit(self.tanks[enemy], (int(self.eposition[enemy]['x']), int(self.eposition[enemy]['y'])))
+       
+    def getx(self):
+        return self.eposition[self.me]['x']
+
+    def gety(self):
+        return self.eposition[self.me]['y']

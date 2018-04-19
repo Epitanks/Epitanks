@@ -46,7 +46,6 @@ class Server:
                     try:
                         data = sock.recv(self.RECV_BUFFER)
                         if data:
-                           # print(data)
                             self.broadcast(server_socket, sock, data)
                         else:
                             if sock in self.SOCKET_LIST:
