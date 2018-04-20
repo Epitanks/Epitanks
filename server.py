@@ -15,7 +15,6 @@ class Server:
         self.current_state = 'WaitingRoom'
 
     def game_server(self):
-
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         server_socket.bind((self.HOST, self.PORT))
@@ -28,7 +27,7 @@ class Server:
         tanks = ['Assets/PNG/tank_red.png', 'Assets/PNG/tank_green.png',
         'Assets/PNG/tank_dark.png', 'Assets/PNG/tank_blue.png']
         i = 0
-        print "Chat server started on port " + str(self.PORT)
+        print "server started on port " + str(self.PORT)
         while self.current_state == self.states[0]:
             ready_to_read, ready_to_write, in_error = select.select(self.SOCKET_LIST, [], [], 0)
             for sock in ready_to_read:
@@ -50,12 +49,10 @@ class Server:
                         else:
                             if sock in self.SOCKET_LIST:
                                 self.SOCKET_LIST.remove(sock)
-                            self.broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
-
+                            self.broadcast(server_socket, sock, "$%s:%s$" % addr)
                     except:
-                        self.broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
+                        self.broadcast(server_socket, sock, "$%s:%s$" % addr)
                         continue
-
         server_socket.close()
 
     def broadcast(self, server_socket, sock, message):
@@ -71,7 +68,6 @@ class Server:
 
     def isWaitingRoom(self):
         return self.current_state
-
 
 if __name__ == "__main__":
     my_server = Server()

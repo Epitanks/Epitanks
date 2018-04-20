@@ -13,21 +13,32 @@ class Game:
         self.window = w
 
     def move(self, key):
-        if key:
-            if key[K_UP]:
-                self.players.move(self.players.me, 0, -5)
-            if key[K_DOWN]:
-                self.players.move(self.players.me, 0, 5)
-            if key[K_LEFT]:
-                self.players.move(self.players.me, -5, 0)
-            if key[K_RIGHT]:
-                self.players.move(self.players.me, 5, 0)
-            if key[K_SPACE]:
-                self.bullets.add(1, self.players.getx(), self.players.gety(), 90)
-                self.display();
-                return self.bullets.toStringBullet()
-        self.display();
-        return self.getpos()
+        if self.players.life == True:
+            if key:
+                if key[K_UP]:
+                    self.players.move(self.players.me, 0, -15)
+                if key[K_DOWN]:
+                    self.players.move(self.players.me, 0, 15)
+                if key[K_LEFT]:
+                    self.players.move(self.players.me, -15, 0)
+                if key[K_RIGHT]:
+                    self.players.move(self.players.me, 15, 0)
+                if key[K_SPACE]:
+                    self.bullets.add(1, self.players.getx(), self.players.gety(), 90)
+                    self.display()
+                    return self.bullets.toStringBullet()
+            self.display()
+            return self.getpos()
+        return "error"
+
+    def colision(self):
+        i = 0
+        for player, rect in zip(self.players.tanks, self.players.rect):
+            toDelete = rect.collidelist(self.bullets.rect)
+            if toDelete != -1:
+                self.bullets.bullets.remove(self.bullets.bullets[toDelete])
+                self.bullets.rect.remove(self.bullets.rect[toDelete])
+                self.players.dead(player, rect)
 
     def clear(self):
         self.DISPLAYSURF.fill((0,0,0))
@@ -35,7 +46,8 @@ class Game:
 
     def display(self):
         self.clear()
-        self.bullets.move(self.window.width, self.window.height)
+        self.bullets.move(self.window.width, self.window.height, self.players)
+        self.colision()
         self.bullets.display(self.DISPLAYSURF)
         self.players.display(self.DISPLAYSURF)
  
@@ -66,4 +78,6 @@ class Game:
         return tmp
 
     def getpos(self):
+        if self.players.getx() == -1 or self.players.gety() == -1:
+            return "error"
         return str(self.players.getx()) + "#" + str(self.players.gety())

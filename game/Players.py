@@ -6,6 +6,7 @@ class Players:
         self.tanks = []
         self.rect = []
         self.me = ""
+        self.life = True
 
     def setMe(self, value):
         self.me = value
@@ -15,10 +16,16 @@ class Players:
             display.blit(tank['img'], (rect.x, rect.y))
        
     def getx(self):
-        return self.rect[self.getTank(self.me)].x
+        if self.getTank(self.me) == None:
+            return -1
+        x = self.rect[self.getTank(self.me)].x
+        return x
 
     def gety(self):
-        return self.rect[self.getTank(self.me)].y
+        if self.getTank(self.me) == None:
+            return -1
+        y = self.rect[self.getTank(self.me)].y
+        return y
 
     def setNewEnemy(self, key, asset, x, y):
         tank = {'key': key, 'img': pygame.image.load(asset)}
@@ -42,6 +49,19 @@ class Players:
         y = int(y) - self.rect[i].y
         if key != -1:
             self.rect[i] = self.rect[i].move(int(x), int(y))
+
+    def dead(self, player, rect):
+        self.tanks.remove(player)
+        self.rect.remove(rect)
+        self.life = False
+
+    def disconnect(self, key):
+        print(key)
+        i = self.getTank(key)
+        self.tanks.remove(self.tanks[i])
+        self.rect.remove(self.rect[i])
+        self.life = False
+
 
     def getTank(self, key):
         i = 0
