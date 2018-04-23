@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, math
 from pygame.locals import *
 import Players
 import Bullets
@@ -20,9 +20,11 @@ class Game:
                 if key[K_DOWN]:
                     self.players.move(self.players.me, 0, 15)
                 if key[K_LEFT]:
-                    self.players.move(self.players.me, -15, 0)
+                    self.players.setDir(10)
+                    #self.players.move(self.players.me, -15, 0)
                 if key[K_RIGHT]:
-                    self.players.move(self.players.me, 15, 0)
+                    self.players.setDir(-10)
+                    #self.players.move(self.players.me, 15, 0)
                 if key[K_SPACE]:
                     self.bullets.add(1, self.players.getx(), self.players.gety(), 90)
                     self.display()
@@ -50,7 +52,6 @@ class Game:
         self.colision()
         self.bullets.display(self.DISPLAYSURF)
         self.players.display(self.DISPLAYSURF)
- 
         pygame.display.update()
 
     def getevent(self):
@@ -80,4 +81,4 @@ class Game:
     def getpos(self):
         if self.players.getx() == -1 or self.players.gety() == -1:
             return "error"
-        return str(self.players.getx()) + "#" + str(self.players.gety())
+        return str(self.players.getx()) + "#" + str(self.players.gety()) + "#" + str(self.players.getDir())

@@ -47,7 +47,7 @@ class Client:
 						for enemy in data:
 							enemy = enemy.split('#')
 							if (len(enemy) > 3):
-								players.setNewEnemy(enemy[0], enemy[1], enemy[2], enemy[3])
+								players.setNewEnemy(enemy[0], enemy[1], enemy[2], enemy[3], 90)
 								i += 1
 		while 1:
 			socket_list = [sys.stdin, self.s]
@@ -64,7 +64,7 @@ class Client:
 					else:
 						if data[0] == '#': #position tanks
 							tmp_split = data[1:].split('#')
-							players.moveEnemy(tmp_split[0], tmp_split[1], tmp_split[2])	
+							players.moveEnemy(tmp_split[0], tmp_split[1], tmp_split[2], tmp_split[3])	
 						elif data[0] == '&': #balles
 							tmp_split = data[1:].split('&')
 							game.bullets.addEnemy(tmp_split[0], tmp_split[1], tmp_split[2], tmp_split[3])

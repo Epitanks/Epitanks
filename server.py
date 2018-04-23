@@ -36,7 +36,7 @@ class Server:
                     sockfd, addr = server_socket.accept()
                     self.SOCKET_LIST.append(sockfd)
                     print "Client (%s, %s) connected" % addr
-                    players += self.broadcast(server_socket, sockfd, "%s:%s#" % addr + tanks[i] + "#" + str(i * 100) + "#10" + '#\n')
+                    players += self.broadcast(server_socket, sockfd, "%s:%s#" % addr + tanks[i] + "#" + str(i * 200) + "#10" + '#\n')
                     sockfd.send(players)
                     i += 1
                     print(players)

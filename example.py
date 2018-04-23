@@ -10,7 +10,7 @@ def rot_center(image, rect, angle):
 	"""rotate an image while keeping its center"""
 	rot_image = pygame.transform.rotate(image, angle)
 	rot_rect = rot_image.get_rect(center=rect.center)
-	print "rect=", rect.center, " rect2=", rot_rect.center
+	#print "rect=", rect.center, " rect2=", rot_rect.center
 	return rot_image, rot_rect
 
 
@@ -37,9 +37,9 @@ base = pygame.image.load("Assets/PNG/tank_dark.png").convert_alpha()
 base2 = pygame.image.load("Assets/PNG/tank_dark.png").convert_alpha()
 coord_base = base.get_rect()
 coord_base2 = base2.get_rect()
-print coord_base.center, "||", coord_base2.center
+#print coord_base.center, "||", coord_base2.center
 coord_base2.center = coord_base.center
-print coord_base.center, "||", coord_base2.center
+#print coord_base.center, "||", coord_base2.center
 
 tourelle = pygame.image.load("Assets/PNG/tank_dark.png").convert_alpha()
 coord_tourelle = tourelle.get_rect()
@@ -105,6 +105,8 @@ while continuer:
 	degs = math.degrees(rads) - 90  # decalage de 90° de l'image rapport au 0°
 	angle = degs
 
+	print(x, y)
+	print(angle)
 	tourelle_scr, coord_tourelle_scr = rot_center(tourelle, coord_tourelle, angle)
 
 	fenetre.blit(fond, (0, 0))
