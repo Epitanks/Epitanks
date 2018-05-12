@@ -15,14 +15,14 @@ class Players:
         i = self.getTank(key)
         img = self.tanks[i]['img']
         rect = self.rect[i]
-        rot_image = pygame.transform.rotate(img, self.tanks[i]['dir'])
+        rot_image = pygame.transform.rotate(img, float(self.tanks[i]['dir']))
         rot_rect = rot_image.get_rect(center=rect.center)
         self.rect[i] = rot_rect
         return rot_image, rot_rect
 
     def display(self, display):
         for tank in self.tanks:
-            img, r = self.rotate(tank['key'])
+            img, r = self.rotate((tank['key']))
             display.blit(img, r)
        
     def getx(self):
@@ -50,24 +50,26 @@ class Players:
         self.tanks.append(tank)
         self.rect.append(rect)
 
-    def move(self, key, x, y):
+    def move(self, key, vitesse):
         if key != -1:
             i = self.getTank(key)
-            
-            tmp = self.rect[i].move(x, y)
+            b = math.cos(math.radians(self.tanks[i]['dir'])) * vitesse
+            a = math.sin(math.radians(self.tanks[i]['dir'])) * vitesse
+            tmp = self.rect[i].move(a, b)
             liste = list(self.rect)
             liste.remove(self.rect[i])
             if tmp.collidelist(liste) == -1:
-                self.rect[i] = self.rect[i].move(x, y)
+                self.rect[i] = self.rect[i].move(a, b)
             else:
                 print('colision')
 
-    def moveEnemy(self, key, x, y, dir):
+    def moveEnemy(self, key, x, y, dire):
         i = self.getTank(key)
         x = int(x) - self.rect[i].x
         y = int(y) - self.rect[i].y
         if key != -1:
             self.rect[i] = self.rect[i].move(int(x), int(y))
+            self.tanks[i]['dir'] = dire
 
     def dead(self, player, rect):
         self.tanks.remove(player)

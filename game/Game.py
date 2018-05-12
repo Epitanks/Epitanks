@@ -16,17 +16,20 @@ class Game:
         if self.players.life == True:
             if key:
                 if key[K_UP]:
-                    self.players.move(self.players.me, 0, -15)
+                    self.players.move(self.players.me, 7)
                 if key[K_DOWN]:
-                    self.players.move(self.players.me, 0, 15)
+                    self.players.move(self.players.me, -7)
                 if key[K_LEFT]:
                     self.players.setDir(10)
-                    #self.players.move(self.players.me, -15, 0)
+                    self.players.move(self.players.me, 7)
                 if key[K_RIGHT]:
                     self.players.setDir(-10)
-                    #self.players.move(self.players.me, 15, 0)
+                    self.players.move(self.players.me, 7)
                 if key[K_SPACE]:
-                    self.bullets.add(1, self.players.getx(), self.players.gety(), 90)
+                    i = self.players.getTank(self.players.me)
+                    tank = self.players.tanks[i]
+                    rect = self.players.rect[i]
+                    self.bullets.add(1, tank['dir'], rect)
                     self.display()
                     return self.bullets.toStringBullet()
             self.display()
@@ -37,10 +40,10 @@ class Game:
         i = 0
         for player, rect in zip(self.players.tanks, self.players.rect):
             toDelete = rect.collidelist(self.bullets.rect)
-            if toDelete != -1:
-                self.bullets.bullets.remove(self.bullets.bullets[toDelete])
-                self.bullets.rect.remove(self.bullets.rect[toDelete])
-                self.players.dead(player, rect)
+     #       if toDelete != -1:
+      #          self.bullets.bullets.remove(self.bullets.bullets[toDelete])
+       #         self.bullets.rect.remove(self.bullets.rect[toDelete])
+        #        self.players.dead(player, rect)
 
     def clear(self):
         self.DISPLAYSURF.fill((0,0,0))

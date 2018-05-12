@@ -25,7 +25,7 @@ class Client:
 		self.me = str(self.s.getsockname()[0]) + ":" + str(self.s.getsockname()[1])
 		print(self.me)
 
-	def chat_client(self):
+	def game_loop(self):
 		self.connection()
 		window = WindowManager.WindowManager()
 		players = Players.Players()
@@ -49,10 +49,10 @@ class Client:
 							if (len(enemy) > 3):
 								players.setNewEnemy(enemy[0], enemy[1], enemy[2], enemy[3], 90)
 								i += 1
+		game.display()
 		while 1:
 			socket_list = [sys.stdin, self.s]
 			# Get the list sockets which are readable
-
 			ready_to_read, ready_to_write, in_error = select.select(socket_list, [], [], 0.05)
 
 			for sock in ready_to_read:
@@ -84,4 +84,4 @@ if __name__ == "__main__":
 			print 'Usage : python chat_client.py hostname port'
 			sys.exit()
 	client = Client()
-	sys.exit(client.chat_client())
+	sys.exit(client.game_loop())
