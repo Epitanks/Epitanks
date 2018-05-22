@@ -5,12 +5,14 @@ import Bullets
 
 class Game:
     def __init__(self, w, p):        
-        self.background = pygame.image.load('Assets/background_example.png')
+        self.background = pygame.image.load('Assets/epitank.png')
         self.players = p
         self.bullets = Bullets.Bullets()
         self.keys = [KEYUP, KEYDOWN]
         self.DISPLAYSURF = w.getDisplay()
         self.window = w
+        self.DISPLAYSURF.blit(self.background, (0, 0))
+        pygame.display.update()
 
     def move(self, key):
         if self.players.life == True:

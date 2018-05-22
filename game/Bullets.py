@@ -24,13 +24,11 @@ class Bullets:
     
     def add(self, t, dire, prect):
         try:
-            bullet = {'img': pygame.image.load('Assets/PNG/bulletRed3_outline.png'), "path": 'Assets/PNG/bulletRed3_outline.png', 'dir': float(dire), 'x': 0, 'y': 0}
+            bullet = {'img': pygame.image.load('Assets/PNG/bulletRed3_outline.png'), "path": 'Assets/PNG/bulletRed3_outline.png', 'dir': float(dire)}
             rect = bullet['img'].get_rect()
             print(dire, math.cos(math.radians(dire)), math.sin(math.radians(dire)))
             b = (math.cos(math.radians(dire))) + prect.y + (prect.h / 2) - (rect.h / 2)
             a = (math.sin(math.radians(dire))) + prect.x + (prect.w / 2) - (rect.w / 2)
-            bullet['x'] = float(a)
-            bullet['y'] = float(b)
             rect = rect.move(a, b)
             self.rect.append(rect)
             self.bullets.append(bullet)
@@ -40,7 +38,7 @@ class Bullets:
             raise
 
     def addEnemy(self, t, x, y, d):
-        bullet = {'img': pygame.image.load(t), "path": t, 'dir': float(d), 'x': float(x), 'y': float(y)}
+        bullet = {'img': pygame.image.load(t), "path": t, 'dir': float(d)}
         rect = bullet['img'].get_rect()
         rect = rect.move(float(x), float(y))
         self.rect.append(rect)

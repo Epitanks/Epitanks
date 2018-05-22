@@ -7,6 +7,8 @@ import time
 from game import Game
 from game import WindowManager
 from game import Players
+from game import Menu
+from game import Input
 
 class Client:
 	def __init__(self):
@@ -14,6 +16,8 @@ class Client:
 		self.port = int(sys.argv[2])
 		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.me = ""
+	#	self.window = window
+
 	def connection(self):	
 		self.s.settimeout(2)
 		try:
@@ -27,8 +31,8 @@ class Client:
 
 	def game_loop(self):
 		self.connection()
-		window = WindowManager.WindowManager()
 		players = Players.Players()
+		window = WindowManager.WindowManager()
 		game = Game.Game(window, players)
 		players.setMe(self.me)
 		i = 0
@@ -71,6 +75,8 @@ class Client:
 						elif data[0] == '$': #Game
 							tmp_split = data[1:].split('$')
 							game.players.disconnect(tmp_split[0])
+						else:
+							print(data)
 				else:
 					game.display()
 					msg = game.getevent()
@@ -83,5 +89,9 @@ if __name__ == "__main__":
 	if len(sys.argv) < 3:
 			print 'Usage : python chat_client.py hostname port'
 			sys.exit()
+	window = WindowManager.WindowManager()
+	
+	menu = Menu.Menu(window)
+	menu.start()
 	client = Client()
 	sys.exit(client.game_loop())
