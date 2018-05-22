@@ -24,10 +24,8 @@ class Game:
                     self.players.move(self.players.me, -7)
                 if key[K_LEFT]:
                     self.players.setDir(10)
-                    self.players.move(self.players.me, 7)
                 if key[K_RIGHT]:
                     self.players.setDir(-10)
-                    self.players.move(self.players.me, 7)
                 if key[K_SPACE]:
                     i = self.players.getTank(self.players.me)
                     tank = self.players.tanks[i]
@@ -39,25 +37,22 @@ class Game:
             return self.getpos()
         return "error"
 
+    def moveEnemy(self, key, x, y, dire):
+        self.players.clear(self.background)
+        self.players.moveEnemy(key, x, y, dire)
+        self.display()
+
     def colision(self):
         i = 0
         for player, rect in zip(self.players.tanks, self.players.rect):
             toDelete = rect.collidelist(self.bullets.rect)
-     #       if toDelete != -1:
-      #          self.bullets.bullets.remove(self.bullets.bullets[toDelete])
-       #         self.bullets.rect.remove(self.bullets.rect[toDelete])
-        #        self.players.dead(player, rect)
+            if toDelete != -1:
+                self.bullets.bullets.remove(self.bullets.bullets[toDelete])
+                self.bullets.rect.remove(self.bullets.rect[toDelete])
+                self.players.dead(player, rect)
 
     def display(self):
-  #      self.clear()
    #     self.colision()
-  #      self.bullets.display(self.DISPLAYSURF)
-#        for o in objects:
-#            screen.blit(background, o.pos, o.pos)
-#        for o in objects:
-#            o.move()
-#            screen.blit(o.image, o.pos)
-#        pygame.display.update()
         self.bullets.clear(self.background)
         self.bullets.move()
         self.bullets.display()

@@ -68,15 +68,13 @@ class Client:
 					else:
 						if data[0] == '#': #position tanks
 							tmp_split = data[1:].split('#')
-							players.moveEnemy(tmp_split[0], tmp_split[1], tmp_split[2], tmp_split[3])	
+							game.moveEnemy(tmp_split[0], tmp_split[1], tmp_split[2], tmp_split[3])	
 						elif data[0] == '&': #balles
 							tmp_split = data[1:].split('&')
 							game.bullets.addEnemy(tmp_split[0], tmp_split[1], tmp_split[2], tmp_split[3])
 						elif data[0] == '$': #Game
 							tmp_split = data[1:].split('$')
 							game.players.disconnect(tmp_split[0])
-						else:
-							print(data)
 				else:
 					game.display()
 					msg = game.getevent()

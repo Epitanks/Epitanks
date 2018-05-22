@@ -29,7 +29,6 @@ class Players:
         for tank in self.tanks:
             img, r = self.rotate((tank['key']))
             self.w.blit(img, r)
-    #        pygame.display.update(r)
 
     def getx(self):
         if self.getTank(self.me) == None:
