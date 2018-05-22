@@ -2,10 +2,13 @@ import pygame, sys, math
 from pygame.locals import *
 
 class Bullets:
-    def __init__(self):
+    def __init__(self, w):
         self.bullets = []
         self.rect = []
+        self.w = w.getDisplay()
         self.toSend = ""
+        self.width = w.width
+        self.height = w.height
     
     def rotate(self, i):
         img = self.bullets[i]['img']
@@ -15,11 +18,15 @@ class Bullets:
         self.rect[i] = rot_rect
         return rot_image, rot_rect
 
-    def display(self, display):
+    def clear(self, background):
+        for rect in self.rect:
+            self.w.blit(background, rect, rect)
+
+    def display(self):
         i = 0
         for bullet, rect in zip(self.bullets, self.rect):
             img, r = self.rotate(i)
-            display.blit(img, r)
+            self.w.blit(img, r)
             i += 1
     
     def add(self, t, dire, prect):
@@ -44,13 +51,13 @@ class Bullets:
         self.rect.append(rect)
         self.bullets.append(bullet)
 
-    def move(self, x, y, players):
+    def move(self):
         i = 0
         for bullet, rect in zip(self.bullets, self.rect):
             b = math.cos(math.radians(bullet['dir'])) * 5
             a = math.sin(math.radians(bullet['dir'])) * 5
             self.rect[i] = rect.move(a, b)
-            if self.rect[i].x < 0 or self.rect[i].y < 0 or self.rect[i].x > x or self.rect[i].y > y:
+            if self.rect[i].x < 0 or self.rect[i].y < 0 or self.rect[i].x > self.width or self.rect[i].y > self.height:
                 self.bullets.remove(bullet)
                 self.rect.remove(self.rect[i])
             else:

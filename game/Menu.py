@@ -4,6 +4,8 @@ import WindowManager
 import Button
 import Input
 import os
+import subprocess
+import time
 
 class Menu:
     def __init__(self, w):
@@ -55,9 +57,11 @@ class Menu:
             self.getevent()
             self.display()
             if (self.check_clicked(self.buttonNewGame)):
+                ls_output=subprocess.Popen(["python", "server.py"], stdout=subprocess.PIPE)
+                time.sleep(1)
                 break
             if (self.check_clicked(self.buttonJoinGame)):
-                self.joinGame()
+               # self.joinGame()
                 break
             if (self.check_clicked(self.buttonExit) == True):
                 pygame.quit()

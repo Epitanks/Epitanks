@@ -11,7 +11,8 @@ from game import Menu
 from game import Input
 
 class Client:
-	def __init__(self):
+	def __init__(self, w):
+		self.w = w
 		self.host = sys.argv[1]
 		self.port = int(sys.argv[2])
 		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,9 +32,8 @@ class Client:
 
 	def game_loop(self):
 		self.connection()
-		players = Players.Players()
-		window = WindowManager.WindowManager()
-		game = Game.Game(window, players)
+		players = Players.Players(self.w)
+		game = Game.Game(self.w, players)
 		players.setMe(self.me)
 		i = 0
 		while i < 2:
@@ -91,7 +91,7 @@ if __name__ == "__main__":
 			sys.exit()
 	window = WindowManager.WindowManager()
 	
-	menu = Menu.Menu(window)
-	menu.start()
-	client = Client()
+ #	menu = Menu.Menu(window)
+ #	menu.start()
+	client = Client(window)
 	sys.exit(client.game_loop())

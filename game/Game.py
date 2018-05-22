@@ -7,7 +7,7 @@ class Game:
     def __init__(self, w, p):        
         self.background = pygame.image.load('Assets/epitank.png')
         self.players = p
-        self.bullets = Bullets.Bullets()
+        self.bullets = Bullets.Bullets(w)
         self.keys = [KEYUP, KEYDOWN]
         self.DISPLAYSURF = w.getDisplay()
         self.window = w
@@ -17,6 +17,7 @@ class Game:
     def move(self, key):
         if self.players.life == True:
             if key:
+                self.players.clear(self.background)
                 if key[K_UP]:
                     self.players.move(self.players.me, 7)
                 if key[K_DOWN]:
@@ -47,16 +48,20 @@ class Game:
        #         self.bullets.rect.remove(self.bullets.rect[toDelete])
         #        self.players.dead(player, rect)
 
-    def clear(self):
-        self.DISPLAYSURF.fill((0,0,0))
-        self.DISPLAYSURF.blit(self.background, (0, 0))
-
     def display(self):
-        self.clear()
-        self.bullets.move(self.window.width, self.window.height, self.players)
-        self.colision()
-        self.bullets.display(self.DISPLAYSURF)
-        self.players.display(self.DISPLAYSURF)
+  #      self.clear()
+   #     self.colision()
+  #      self.bullets.display(self.DISPLAYSURF)
+#        for o in objects:
+#            screen.blit(background, o.pos, o.pos)
+#        for o in objects:
+#            o.move()
+#            screen.blit(o.image, o.pos)
+#        pygame.display.update()
+        self.bullets.clear(self.background)
+        self.bullets.move()
+        self.bullets.display()
+        self.players.display()
         pygame.display.update()
 
     def getevent(self):

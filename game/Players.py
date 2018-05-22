@@ -2,10 +2,11 @@ import pygame, sys, math
 from pygame.locals import *
 
 class Players:
-    def __init__(self):        
+    def __init__(self, w):        
         self.tanks = []
         self.rect = []
         self.me = ""
+        self.w = w.getDisplay()
         self.life = True
 
     def setMe(self, value):
@@ -20,12 +21,16 @@ class Players:
         self.rect[i] = rot_rect
         return rot_image, rot_rect
 
-    def display(self, display):
+    def clear(self, background):
+        for rect in self.rect:
+            self.w.blit(background, rect, rect)
+
+    def display(self):
         for tank in self.tanks:
             img, r = self.rotate((tank['key']))
-            display.blit(img, r)
-   #         pygame.display.update(r)
-       
+            self.w.blit(img, r)
+    #        pygame.display.update(r)
+
     def getx(self):
         if self.getTank(self.me) == None:
             return -1
