@@ -89,7 +89,7 @@ if __name__ == "__main__":
 			sys.exit()
 	window = WindowManager.WindowManager()
 	
- #	menu = Menu.Menu(window)
- #	menu.start()
+ 	menu = Menu.Menu(window)
+ 	menu.start()
 	client = Client(window)
 	sys.exit(client.game_loop())
