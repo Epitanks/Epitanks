@@ -2,17 +2,47 @@ import pygame, sys, math
 from pygame.locals import *
 import Players
 import Bullets
+import Info
 
 class Game:
-    def __init__(self, w, p):        
+    def __init__(self, w, p):
         self.background = pygame.image.load('Assets/epitank.png')
         self.players = p
         self.bullets = Bullets.Bullets(w)
         self.keys = [KEYUP, KEYDOWN]
         self.DISPLAYSURF = w.getDisplay()
         self.window = w
+        self.font = pygame.font.SysFont("monospace", 50)
+        self.wait = self.font.render("Waiting for players...", 2, (255, 0, 0))
+        self.IP_server = self.font.render("IP_SERVER : " + str(Info.getinfoserver()['IP_ADDRESS']), 2, (255, 0, 0))
+        self.PORT_server = self.font.render("PORT_SERVER : " + str(Info.getinfoserver()['PORT']), 2, (255, 0, 0))
+        self.tabpressed = False
         self.DISPLAYSURF.blit(self.background, (0, 0))
         pygame.display.update()
+
+    def clearbackground(self):
+        self.DISPLAYSURF.blit(self.background, (0, 0))
+        pygame.display.update()
+
+    def printwaiting(self):
+        self.DISPLAYSURF.blit(self.wait, (self.window.width / 2 - 300, 30))
+        pygame.display.update()
+
+    def geteventtab(self):
+        get_events = pygame.event.get()
+        for event in get_events:
+                keys = pygame.key.get_pressed()
+                if event.type == KEYUP and event.key == K_TAB and self.tabpressed is True:
+                    self.DISPLAYSURF.blit(self.background, (0, 0))
+                    self.DISPLAYSURF.blit(self.background, (0, 0))
+                    pygame.display.update()
+                    self.tabpressed = False
+                if event.type == KEYDOWN and keys[K_TAB] and self.tabpressed is False:
+                    self.DISPLAYSURF.blit(self.IP_server, (10, self.window.height / 2))
+                    self.DISPLAYSURF.blit(self.PORT_server, (10, self.window.height / 2 + 50))
+                    pygame.display.update()
+                    self.tabpressed = True
+
 
     def move(self, key):
         if self.players.life == True:

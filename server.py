@@ -27,6 +27,7 @@ class Server:
         tanks = ['Assets/PNG/tank_red.png', 'Assets/PNG/tank_green.png',
         'Assets/PNG/tank_dark.png', 'Assets/PNG/tank_blue.png']
         i = 1
+
         print "server started on port " + str(self.PORT)
         while self.current_state == self.states[0]:
             ready_to_read, ready_to_write, in_error = select.select(self.SOCKET_LIST, [], [], 0)

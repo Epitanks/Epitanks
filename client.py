@@ -36,7 +36,10 @@ class Client:
 		game = Game.Game(self.w, players)
 		players.setMe(self.me)
 		i = 0
+
 		while i < 2:
+			game.printwaiting()
+			game.geteventtab()
 			socket_list = [sys.stdin, self.s]
 			ready_to_read, ready_to_write, in_error = select.select(socket_list, [], [], 0.05)
 			for sock in ready_to_read:
@@ -53,6 +56,7 @@ class Client:
 							if (len(enemy) > 3):
 								players.setNewEnemy(enemy[0], enemy[1], enemy[2], enemy[3], 90)
 								i += 1
+		game.clearbackground()
 		game.display()
 		while 1:
 			socket_list = [sys.stdin, self.s]
