@@ -14,6 +14,8 @@ class Menu:
 		self.background = pygame.image.load('Assets/Accueil.png')
 		self.keys = [KEYUP, KEYDOWN]
 		self.DISPLAYSURF = w.getDisplay()
+		self.ip = None
+		self.port = None
 		self.buttonNewGame = Button.Button("New Game", w.width / 2 - 200, w.height / 2, 400, 100,
 										   "Assets/button/green_button00.png", "Assets/button/green_button01.png",
 										   "Assets/Song/click1.ogg")
@@ -75,6 +77,16 @@ class Menu:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					done = True
+				if event.type == KEYDOWN:
+					if event.key == K_ESCAPE:
+						done = True
+					if event.key == K_RETURN:
+						for box in inputs:
+							if box is input_ip:
+								self.ip = box.getinput()
+							if box is input_port:
+								self.port = box.getinput()
+						done = True
 				if event.type in events:
 					if event.type == KEYDOWN or event.type == MOUSEBUTTONDOWN:
 						for box in inputs:
@@ -105,3 +117,6 @@ class Menu:
 			if self.check_clicked(self.buttonExit):
 				pygame.quit()
 				sys.exit()
+
+	def getInput(self):
+		return self.ip, self.port

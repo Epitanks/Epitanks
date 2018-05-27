@@ -10,16 +10,18 @@ from game import Players
 from game import Menu
 from game import Input
 
+
 class Client:
-	def __init__(self, w):
+	def __init__(self, w, ip, port):
 		self.w = w
-		self.host = sys.argv[1]
-		self.port = int(sys.argv[2])
+		self.host = ip
+		self.port = int(port)
 		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.me = ""
+
 	#	self.window = window
 
-	def connection(self):	
+	def connection(self):
 		self.s.settimeout(2)
 		try:
 			self.s.connect((self.host, self.port))
@@ -70,13 +72,13 @@ class Client:
 						print '\nDisconnected from server'
 						sys.exit()
 					else:
-						if data[0] == '#': #position tanks
+						if data[0] == '#':  # position tanks
 							tmp_split = data[1:].split('#')
-							game.moveEnemy(tmp_split[0], tmp_split[1], tmp_split[2], tmp_split[3])	
-						elif data[0] == '&': #balles
+							game.moveEnemy(tmp_split[0], tmp_split[1], tmp_split[2], tmp_split[3])
+						elif data[0] == '&':  # balles
 							tmp_split = data[1:].split('&')
 							game.bullets.addEnemy(tmp_split[0], tmp_split[1], tmp_split[2], tmp_split[3])
-						elif data[0] == '$': #Game
+						elif data[0] == '$':  # Game
 							tmp_split = data[1:].split('$')
 							game.players.disconnect(tmp_split[0])
 				else:
@@ -87,13 +89,14 @@ class Client:
 							msg = "#" + self.me + '#' + msg + "#"
 						self.s.send(msg)
 
+
 if __name__ == "__main__":
-	if len(sys.argv) < 3:
-			print 'Usage : python chat_client.py hostname port'
-			sys.exit()
+	if len(sys.argv) < 1:
+		sys.exit()
 	window = WindowManager.WindowManager()
-	
- 	menu = Menu.Menu(window)
- 	menu.start()
-	client = Client(window)
+
+	menu = Menu.Menu(window)
+	menu.start()
+	ip, port = menu.getInput()
+	client = Client(window, ip, port)
 	sys.exit(client.game_loop())

@@ -25,13 +25,11 @@ class InputBox:
             self.color = self.color_active if self.active else self.color_inactive
         if event.type == pygame.KEYDOWN:
             if self.active:
-                if event.key == pygame.K_RETURN:
-                    print(self.text)
-                    self.text = ''
-                elif event.key == pygame.K_BACKSPACE:
+                if event.key == pygame.K_BACKSPACE:
                     self.text = self.text[:-1]
                 else:
-                    self.text += event.unicode
+                    if event.unicode >= '0' and event.unicode <= '9' or event.unicode == '.':
+                        self.text += event.unicode
                 # Re-render the text.
                 self.txt_surface = self.font.render(self.text, True, self.color)
 
@@ -45,3 +43,6 @@ class InputBox:
         screen.blit(self.txt_surface, (self.rect.x + 5, self.rect.y + 5))
         # Blit the rect.
         pygame.draw.rect(screen, self.color, self.rect, 2)
+
+    def getinput(self):
+        return self.text
