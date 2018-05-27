@@ -98,5 +98,9 @@ if __name__ == "__main__":
 	menu = Menu.Menu(window)
 	menu.start()
 	ip, port = menu.getInput()
+	if ip is None:
+		ip = 'localhost'
+	if port is None:
+		port = '9009'
 	client = Client(window, ip, port)
 	sys.exit(client.game_loop())
