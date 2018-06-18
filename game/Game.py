@@ -1,11 +1,12 @@
 import pygame, sys, math
 from pygame.locals import *
 import Players
+import subprocess
 import Bullets
 import Info
 
 class Game:
-    def __init__(self, w, p):
+    def __init__(self, w, p, process):
         self.background = pygame.image.load('Assets/epitank.png')
         self.players = p
         self.bullets = Bullets.Bullets(w)
@@ -17,7 +18,10 @@ class Game:
         self.IP_server = self.font.render("IP_SERVER : " + str(Info.getinfoserver()['IP_ADDRESS']), 2, (255, 0, 0))
         self.PORT_server = self.font.render("PORT_SERVER : " + str(Info.getinfoserver()['PORT']), 2, (255, 0, 0))
         self.tabpressed = False
+        self.pressed = False
+        self.lastkey = None
         self.DISPLAYSURF.blit(self.background, (0, 0))
+        self.process = process
         pygame.display.update()
 
     def clearbackground(self):
@@ -48,14 +52,14 @@ class Game:
         if self.players.life == True:
             if key:
                 self.players.clear(self.background)
-                if key[K_UP]:
-                    self.players.move(self.players.me, 7)
-                if key[K_DOWN]:
-                    self.players.move(self.players.me, -7)
                 if key[K_LEFT]:
                     self.players.setDir(10)
                 if key[K_RIGHT]:
                     self.players.setDir(-10)
+                if key[K_UP]:
+                    self.players.move(self.players.me, 7)
+                if key[K_DOWN]:
+                    self.players.move(self.players.me, -7)
                 if key[K_SPACE]:
                     i = self.players.getTank(self.players.me)
                     tank = self.players.tanks[i]
@@ -100,13 +104,14 @@ class Game:
         tmp = None
         for event in events:
             if event.type == QUIT or event.key == K_ESCAPE:
+                if self.process is not None:
+                    self.process.kill()
                 pygame.quit()
                 sys.exit()
             if event.type == KEYDOWN:
                 key = pygame.key.get_pressed()
-            if event.type == KEYUP:
-                if event.key == key:
-                    key = None
+                #if event.key == key:
+                    #key = None
             tmp = self.move(key)
 
         if len(events) == 0:
