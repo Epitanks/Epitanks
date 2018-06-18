@@ -60,7 +60,7 @@ class Game:
                     i = self.players.getTank(self.players.me)
                     tank = self.players.tanks[i]
                     rect = self.players.rect[i]
-                    self.bullets.add(1, tank['dir'], rect)
+                    self.bullets.add(i, tank['dir'], rect)
                     self.display()
                     return self.bullets.toStringBullet()
             self.display()
@@ -73,16 +73,24 @@ class Game:
         self.display()
 
     def colision(self):
+        i = self.players.getTank(self.players.me)
+        tank = self.players.tanks[i]
+        rect = self.players.rect[i]
+        idPlayer = i
         i = 0
-        for player, rect in zip(self.players.tanks, self.players.rect):
-            toDelete = rect.collidelist(self.bullets.rect)
-            if toDelete != -1:
-                self.bullets.bullets.remove(self.bullets.bullets[toDelete])
-                self.bullets.rect.remove(self.bullets.rect[toDelete])
-                self.players.dead(player, rect)
+        while i < len(self.bullets.bullets):
+            print "ID : " + str(self.bullets.bullets[i]['type']) + " = " + str(idPlayer)
+            if self.bullets.bullets[i]['type'] != idPlayer:
+                toDelete = rect.colliderect(self.bullets.rect[i])
+                if toDelete == True:
+                    print "DEAD"
+                    self.bullets.bullets.remove(self.bullets.bullets[i])
+                    self.bullets.rect.remove(self.bullets.rect[i])
+                    self.players.dead(tank, rect)
+            i += 1
 
     def display(self):
-   #     self.colision()
+        self.colision()
         self.bullets.clear(self.background)
         self.bullets.move()
         self.bullets.display()

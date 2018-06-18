@@ -28,6 +28,7 @@ class Players:
     def display(self):
         for tank in self.tanks:
             img, r = self.rotate((tank['key']))
+    #        pygame.draw.rect(self.w, (255,0,0), r, 2)
             self.w.blit(img, r)
 
     def getx(self):

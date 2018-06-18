@@ -27,25 +27,25 @@ class Bullets:
         for bullet, rect in zip(self.bullets, self.rect):
             img, r = self.rotate(i)
             self.w.blit(img, r)
+   #         pygame.draw.rect(self.w, (255,0,0), r, 2)
             i += 1
     
     def add(self, t, dire, prect):
         try:
-            bullet = {'img': pygame.image.load('Assets/PNG/bulletRed3_outline.png'), "path": 'Assets/PNG/bulletRed3_outline.png', 'dir': float(dire)}
+            bullet = {'img': pygame.image.load('Assets/PNG/bulletRed3_outline.png'), "path": 'Assets/PNG/bulletRed3_outline.png', 'dir': float(dire), 'type': t}
             rect = bullet['img'].get_rect()
-            print(dire, math.cos(math.radians(dire)), math.sin(math.radians(dire)))
-            b = (math.cos(math.radians(dire))) + prect.y + (prect.h / 2) - (rect.h / 2)
-            a = (math.sin(math.radians(dire))) + prect.x + (prect.w / 2) - (rect.w / 2)
+            b = (math.cos(math.radians(dire)) * 120) + prect.y + (prect.h / 2) - (rect.h / 2)
+            a = (math.sin(math.radians(dire)) * 120) + prect.x + (prect.w / 2) - (rect.w / 2)
             rect = rect.move(a, b)
             self.rect.append(rect)
             self.bullets.append(bullet)
-            self.toSend += "&" + bullet['path'] + "&" + str(a) + "&" + str(b) + "&" + str(bullet['dir']) + "&\n"
+            self.toSend += "&" + bullet['path'] + "&" + str(a) + "&" + str(b) + "&" + str(bullet['dir']) + "&" + str(bullet['type']) + "&\n"
         except:
             print "Unexpected error:", sys.exc_info()[0]
             raise
 
-    def addEnemy(self, t, x, y, d):
-        bullet = {'img': pygame.image.load(t), "path": t, 'dir': float(d)}
+    def addEnemy(self, path, x, y, d, t):
+        bullet = {'img': pygame.image.load(path), "path": path, 'dir': float(d), 'type': int(t)}
         rect = bullet['img'].get_rect()
         rect = rect.move(float(x), float(y))
         self.rect.append(rect)
