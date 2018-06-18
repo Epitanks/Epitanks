@@ -108,15 +108,16 @@ class Menu:
 			self.getevent()
 			self.display()
 			if self.check_clicked(self.buttonNewGame):
-				ls_output = subprocess.Popen(["python", "server.py"], stdin=subprocess.PIPE)
+				process = subprocess.Popen(["python", "server.py"], stdin=subprocess.PIPE)
 				time.sleep(1)
-				break
+				return process
 			if self.check_clicked(self.buttonJoinGame):
 				self.joinGame()
 				break
 			if self.check_clicked(self.buttonExit):
 				pygame.quit()
 				sys.exit()
+		return None
 
 	def getInput(self):
 		return self.ip, self.port

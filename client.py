@@ -12,12 +12,13 @@ from game import Input
 
 
 class Client:
-	def __init__(self, w, ip, port):
+	def __init__(self, w, ip, port, process):
 		self.w = w
 		self.host = ip
 		self.port = int(port)
 		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.me = ""
+		self.process = process
 
 	#	self.window = window
 
@@ -35,7 +36,7 @@ class Client:
 	def game_loop(self):
 		self.connection()
 		players = Players.Players(self.w)
-		game = Game.Game(self.w, players)
+		game = Game.Game(self.w, players, self.process)
 		players.setMe(self.me)
 		i = 0
 
@@ -96,11 +97,11 @@ if __name__ == "__main__":
 	window = WindowManager.WindowManager()
 
 	menu = Menu.Menu(window)
-	menu.start()
+	process = menu.start()
 	ip, port = menu.getInput()
 	if ip is None:
 		ip = 'localhost'
 	if port is None:
 		port = '9009'
-	client = Client(window, ip, port)
+	client = Client(window, ip, port, process)
 	sys.exit(client.game_loop())
