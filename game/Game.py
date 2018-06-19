@@ -77,21 +77,21 @@ class Game:
         self.display()
 
     def colision(self):
-        i = self.players.getTank(self.players.me)
-        tank = self.players.tanks[i]
-        rect = self.players.rect[i]
-        idPlayer = i
-        i = 0
-        while i < len(self.bullets.bullets):
-            print "ID : " + str(self.bullets.bullets[i]['type']) + " = " + str(idPlayer)
-            if self.bullets.bullets[i]['type'] != idPlayer:
-                toDelete = rect.colliderect(self.bullets.rect[i])
-                if toDelete == True:
-                    print "DEAD"
-                    self.bullets.bullets.remove(self.bullets.bullets[i])
-                    self.bullets.rect.remove(self.bullets.rect[i])
-                    self.players.dead(tank, rect)
-            i += 1
+        j = 0
+        while j < len(self.players.tanks):
+            tank = self.players.tanks[j]
+            rect = self.players.rect[j]
+            idPlayer = j
+            i = 0
+            while i < len(self.bullets.bullets):
+                if self.bullets.bullets[i]['type'] != idPlayer:
+                    toDelete = rect.colliderect(self.bullets.rect[i])
+                    if toDelete == True:
+                        self.bullets.bullets.remove(self.bullets.bullets[i])
+                        self.bullets.rect.remove(self.bullets.rect[i])
+                        self.players.dead(tank, rect)
+                i += 1
+            j += 1
 
     def display(self):
         self.colision()

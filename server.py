@@ -26,8 +26,8 @@ class Server:
         players = ""
         tanks = ['Assets/PNG/tank_red.png', 'Assets/PNG/tank_green.png',
         'Assets/PNG/tank_dark.png', 'Assets/PNG/tank_blue.png']
-        i = 1
-
+        i = 0
+        pos = [[100, 100], [1720, 880]]
         print "server started on port " + str(self.PORT)
         while self.current_state == self.states[0]:
             ready_to_read, ready_to_write, in_error = select.select(self.SOCKET_LIST, [], [], 0)
@@ -37,7 +37,7 @@ class Server:
                     sockfd, addr = server_socket.accept()
                     self.SOCKET_LIST.append(sockfd)
                     print "Client (%s, %s) connected" % addr
-                    players += self.broadcast(server_socket, sockfd, "%s:%s#" % addr + tanks[i] + "#" + str(i * 200) + "#100" + '#\n')
+                    players += self.broadcast(server_socket, sockfd, "%s:%s#" % addr + tanks[i] + "#" + str(pos[i][0]) + "#" + str(pos[i][1]) + '#\n')
                     sockfd.send(players)
                     i += 1
                     print(players)

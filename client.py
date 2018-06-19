@@ -20,8 +20,6 @@ class Client:
 		self.me = ""
 		self.process = process
 
-	#	self.window = window
-
 	def connection(self):
 		self.s.settimeout(2)
 		try:
@@ -89,6 +87,10 @@ class Client:
 						if (msg[0] != '&'):
 							msg = "#" + self.me + '#' + msg + "#"
 						self.s.send(msg)
+					if len(players.tanks) < 2:
+						if (self.process is not None):
+							self.process.kill()
+						exit(0)
 
 
 if __name__ == "__main__":
